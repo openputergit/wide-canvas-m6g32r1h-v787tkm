@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .dashboard-section { display: none; }
+        .active-section { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sign Up Page -->
+    <div id="signup-page" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+            <div>
+                <h2 class="text-center text-3xl font-extrabold text-gray-900">Create Account</h2>
+            </div>
+            <form class="mt-8 space-y-6" id="signup-form">
+                <div class="rounded-md shadow-sm space-y-4">
+                    <div>
+                        <label for="fullname" class="sr-only">Full Name</label>
+                        <input id="fullname" name="fullname" type="text" required class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Full Name">
+                    </div>
+                    <div>
+                        <label for="signup-email" class="sr-only">Email address</label>
+                        <input id="signup-email" name="email" type="email" required class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                    </div>
+                    <div>
+                        <label for="signup-username" class="sr-only">Username</label>
+                        <input id="signup-username" name="username" type="text" required class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Username">
+                    </div>
+                    <div>
+                        <label for="signup-password" class="sr-only">Password</label>
+                        <input id="signup-password" name="password" type="password" required class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Password">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign Up</button>
+                </div>
+                <div class="text-center">
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-500" onclick="showLogin()">Already have an account? Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style="display: none;">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+            <div>
+                <h2 class="text-center text-3xl font-extrabold text-gray-900">Login</h2>
+            </div>
+            <form class="mt-8 space-y-6" id="login-form">
+                <div class="rounded-md shadow-sm space-y-4">
+                    <div>
+                        <label for="login-username" class="sr-only">Username</label>
+                        <input id="login-username" name="username" type="text" required class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Username">
+                    </div>
+                    <div>
+                        <label for="login-password" class="sr-only">Password</label>
+                        <input id="login-password" name="password" type="password" required class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Password">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Login</button>
+                </div>
+                <div class="text-center">
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-500" onclick="showSignup()">Don't have an account? Sign up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Layout -->
+    <div id="dashboard" class="h-screen flex overflow-hidden" style="display: none;">
+        <!-- Sidebar -->
+        <div class="flex-shrink-0 w-64 bg-gray-800">
+            <div class="flex h-16 items-center justify-center">
+                <h1 class="text-white text-xl font-bold" id="dashboard-title">Dashboard</h1>
+            </div>
+            <nav class="mt-5 px-2 space-y-1" id="sidebar-menu">
+                <!-- Menu items will be dynamically populated -->
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top header -->
+            <header class="bg-white shadow-sm">
+                <div class="flex justify-between items-center px-4 py-4">
+                    <h1 class="text-xl font-semibold text-gray-900" id="section-title">Dashboard</h1>
+                    <button onclick="logout()" class="px-4 py-2 text-sm text-white bg-red-500 rounded-md hover:bg-red-600">Logout</button>
+                </div>
+            </header>
+
+            <!-- Dashboard Sections -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Products Section -->
+                <div id="products" class="dashboard-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold mb-4">Products</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Sample Product Cards -->
+                            <div class="border rounded-lg p-4">
+                                <div class="h-40 bg-gray-200 rounded-lg mb-2"></div>
+                                <h3 class="font-medium">Product 1</h3>
+                                <p class="text-gray-600">$99.99</p>
+                            </div>
+                            <div class="border rounded-lg p-4">
+                                <div class="h-40 bg-gray-200 rounded-lg mb-2"></div>
+                                <h3 class="font-medium">Product 2</h3>
+                                <p class="text-gray-600">$149.99</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Center Section -->
+                <div id="help-center" class="dashboard-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold mb-4">Help Center</h2>
+                        <div class="space-y-4">
+                            <div class="border-b pb-4">
+                                <h3 class="font-medium mb-2">Frequently Asked Questions</h3>
+                                <p class="text-gray-600">Find answers to common questions here.</p>
+                            </div>
+                            <div class="border-b pb-4">
+                                <h3 class="font-medium mb-2">Contact Support</h3>
+                                <p class="text-gray-600">Need help? Reach out to our support team.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div id="users" class="dashboard-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold mb-4">Users</h2>
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4">John Doe</td>
+                                    <td class="px-6 py-4">john@example.com</td>
+                                    <td class="px-6 py-4">User</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Issues Section -->
+                <div id="issues" class="dashboard-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold mb-4">Issues</h2>
+                        <div class="space-y-4">
+                            <div class="border rounded-lg p-4">
+                                <h3 class="font-medium">Issue #1</h3>
+                                <p class="text-gray-600">Description of the issue...</p>
+                                <span class="inline-block mt-2 px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suggestions Section -->
+                <div id="suggestions" class="dashboard-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold mb-4">Suggestions</h2>
+                        <div class="space-y-4">
+                            <div class="border rounded-lg p-4">
+                                <h3 class="font-medium">Suggestion #1</h3>
+                                <p class="text-gray-600">User suggestion details...</p>
+                                <button class="mt-2 px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-600">Implement</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Section -->
+                <div id="chat" class="dashboard-section">
+                    <div class="bg-white rounded-lg shadow p-6 h-[calc(100vh-12rem)]">
+                        <h2 class="text-lg font-semibold mb-4">Chat</h2>
+                        <div class="flex flex-col h-full">
+                            <div class="flex-1 overflow-y-auto mb-4 space-y-4">
+                                <div class="flex items-start">
+                                    <div class="bg-gray-100 rounded-lg px-4 py-2 max-w-xs">
+                                        <p class="text-sm">Hello! How can I help you today?</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <input type="text" class="flex-1 rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message...">
+                                <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Us Section -->
+                <div id="about" class="dashboard-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold mb-4">About Us</h2>
+                        <div class="prose">
+                            <p>Welcome to our platform! We are dedicated to providing the best service to our users...</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // User roles and their menu items
+        const roleMenus = {
+            admin: [
+                { id: 'products', label: 'Products', icon: 'bi-box' },
+                { id: 'help-center', label: 'Help Center', icon: 'bi-question-circle' },
+                { id: 'users', label: 'Users', icon: 'bi-people' },
+                { id: 'issues', label: 'Issues', icon: 'bi-exclamation-circle' },
+                { id: 'suggestions', label: 'Suggestions', icon: 'bi-lightbulb' },
+                { id: 'chat', label: 'Chat', icon: 'bi-chat' },
+                { id: 'about', label: 'About Us', icon: 'bi-info-circle' }
+            ],
+            employee: [
+                { id: 'products', label: 'Products', icon: 'bi-box' },
+                { id: 'suggestions', label: 'Suggestions', icon: 'bi-lightbulb' },
+                { id: 'issues', label: 'Issues', icon: 'bi-exclamation-circle' },
+                { id: 'chat', label: 'Chat', icon: 'bi-chat' }
+            ],
+            user: [
+                { id: 'products', label: 'Products', icon: 'bi-box' },
+                { id: 'suggestions', label: 'Suggestions', icon: 'bi-lightbulb' },
+                { id: 'issues', label: 'Issues', icon: 'bi-exclamation-circle' },
+                { id: 'chat', label: 'Chat', icon: 'bi-chat' }
+            ]
+        };
+
+        // Show/Hide pages
+        function showLogin() {
+            document.getElementById('signup-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        function showSignup() {
+            document.getElementById('signup-page').style.display = 'flex';
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        function showDashboard(role) {
+            document.getElementById('signup-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'flex';
+            setupDashboard(role);
+        }
+
+        // Setup dashboard based on role
+        function setupDashboard(role) {
+            const menuItems = roleMenus[role];
+            const sidebarMenu = document.getElementById('sidebar-menu');
+            sidebarMenu.innerHTML = '';
+
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('a');
+                menuItem.href = '#';
+                menuItem.className = 'text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md';
+                menuItem.innerHTML = `
+                    <i class="bi ${item.icon} mr-3 flex-shrink-0 h-6 w-6"></i>
+                    ${item.label}
+                `;
+                menuItem.onclick = () => showSection(item.id);
+                sidebarMenu.appendChild(menuItem);
+            });
+
+            // Show first section by default
+            showSection(menuItems[0].id);
+            document.getElementById('dashboard-title').textContent = `${role.charAt(0).toUpperCase() + role.slice(1)} Dashboard`;
+        }
+
+        // Show selected section
+        function showSection(sectionId) {
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.classList.remove('active-section');
+            });
+            document.getElementById(sectionId).classList.add('active-section');
+            document.getElementById('section-title').textContent = sectionId.charAt(0).toUpperCase() + sectionId.slice(1);
+        }
+
+        // Handle login
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if(username === 'admin@123' && password === 'admin1234') {
+                showDashboard('admin');
+            } else if(username === 'employee@12345' && password === '12345678') {
+                showDashboard('employee');
+            } else {
+                // For demo purposes, any other combination logs in as regular user
+                showDashboard('user');
+            }
+        });
+
+        // Handle signup
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real application, you would save the user data
+            showLogin();
+        });
+
+        // Handle logout
+        function logout() {
+            showLogin();
+        }
+
+        // Start with signup page
+        showSignup();
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
